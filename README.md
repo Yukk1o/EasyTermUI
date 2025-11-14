@@ -2,7 +2,7 @@
 轻量易用的 Java 终端 UI 库（基于 JLine），主打「极简配置、组件化开发、开箱即用」—— 无需复杂上下文，一行 `render()` 直接渲染，快速构建终端应用。
 
 [![MIT License](https://img.shields.io/badge/License-MIT-green.svg)](https://opensource.org/licenses/MIT)
-[![Java 17+](https://img.shields.io/badge/Java-8%2B-blue.svg)](https://www.oracle.com/java/technologies/downloads/)
+[![Java 17+](https://img.shields.io/badge/Java-17%2B-blue.svg)](https://www.oracle.com/java/technologies/downloads/)
 [![JLine 3.x](https://img.shields.io/badge/JLine-3.23.0-orange.svg)](https://jline.org/)
 
 ## 🌟 核心特性
