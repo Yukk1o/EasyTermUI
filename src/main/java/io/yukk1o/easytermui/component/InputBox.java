@@ -1,11 +1,11 @@
-package io.yukk1o.easyTermUi.component;
+package io.yukk1o.easytermui.component;
 
-import io.yukk1o.easyTermUi.base.BaseComponent;
-import io.yukk1o.easyTermUi.constant.AnsiConstants;
-import io.yukk1o.easyTermUi.util.AnsiUtils;
+import io.yukk1o.easytermui.base.BaseComponent;
+import io.yukk1o.easytermui.constant.AnsiConstants;
+import io.yukk1o.easytermui.util.AnsiUtils;
 
-import static io.yukk1o.easyTermUi.EasyTermUI.terminal;
-import static io.yukk1o.easyTermUi.EasyTermUI.activeInputBox;
+import static io.yukk1o.easytermui.EasyTermUI.terminal;
+import static io.yukk1o.easytermui.EasyTermUI.activeInputBox;
 
 public class InputBox extends BaseComponent {
     /// 输入相关属性

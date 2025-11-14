@@ -1,9 +1,9 @@
-package io.yukk1o.easyTermUi.util;
+package io.yukk1o.easytermui.util;
 
-import io.yukk1o.easyTermUi.constant.AnsiConstants;
+import io.yukk1o.easytermui.constant.AnsiConstants;
 import org.jline.terminal.Terminal;
 
-import static io.yukk1o.easyTermUi.EasyTermUI.terminal;
+import static io.yukk1o.easytermui.EasyTermUI.terminal;
 
 public class AnsiUtils {
     // ================================== 光标动态操作 ==================================

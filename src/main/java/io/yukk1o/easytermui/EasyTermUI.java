@@ -1,8 +1,8 @@
-package io.yukk1o.easyTermUi;
+package io.yukk1o.easytermui;
 
-import io.yukk1o.easyTermUi.component.InputBox;
-import io.yukk1o.easyTermUi.component.Panel;
-import io.yukk1o.easyTermUi.base.InteractiveListener;
+import io.yukk1o.easytermui.component.InputBox;
+import io.yukk1o.easytermui.component.Panel;
+import io.yukk1o.easytermui.base.InteractiveListener;
 import org.jline.terminal.Terminal;
 import org.jline.terminal.TerminalBuilder;
 import org.jline.utils.InfoCmp;
@@ -26,12 +26,12 @@ public class EasyTermUI {
             terminal = TerminalBuilder.builder()
                     .system(true)
                     .provider("jni")
-                    .name("")
                     .build();
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
         terminal.trackMouse(Terminal.MouseTracking.Normal);
+        terminal.flush();
         writer = terminal.writer();
         /// 清屏
         terminal.puts(InfoCmp.Capability.clear_screen);
@@ -59,22 +59,16 @@ public class EasyTermUI {
         int width = terminal.getWidth();
         /// 检测终端大小是否符合面板要求
         if (height < rootPanel.getHeight() || width < rootPanel.getWidth()) {
-            String errorMessage = String.format("您的终端大小不足够\n请设置终端大小为 %d * %d\n", rootPanel.getWidth(),
-                    rootPanel.getHeight());
+            String errorMessage = String.format("您的终端大小不足够\n请设置终端大小为 %d * %d\n", rootPanel.getWidth(), rootPanel.getHeight());
+            System.out.println(errorMessage);
             /// TODO: 将来添加弹窗
         }
 
-
         this.rootPanel = rootPanel;
         initialized = true;
+        render();
+        new InteractiveListener(this.rootPanel).start();
         return this;
-    }
-
-    private void start() {
-        if (initialized) {
-            render();
-            new InteractiveListener(this.rootPanel).start();
-        }
     }
 
     /**

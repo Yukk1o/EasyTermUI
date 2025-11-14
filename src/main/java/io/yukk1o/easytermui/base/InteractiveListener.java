@@ -1,13 +1,14 @@
-package io.yukk1o.easyTermUi.base;
+package io.yukk1o.easytermui.base;
 
-import io.yukk1o.easyTermUi.component.Panel;
+
+import io.yukk1o.easytermui.component.Panel;
 import org.jline.utils.NonBlockingReader;
 
 import java.io.IOException;
 
-import static io.yukk1o.easyTermUi.EasyTermUI.activeInputBox;
-import static io.yukk1o.easyTermUi.EasyTermUI.terminal;
 
+import static io.yukk1o.easytermui.EasyTermUI.activeInputBox;
+import static io.yukk1o.easytermui.EasyTermUI.terminal;
 
 public class InteractiveListener {
     private final NonBlockingReader reader;
@@ -27,7 +28,6 @@ public class InteractiveListener {
 
         try {
             while (running) {
-
                 int c = reader.read();
                 if (c == '\033') { // 检测到ESC开头
                     handleEscapeSequence();
@@ -64,12 +64,19 @@ public class InteractiveListener {
     }
 
     private void mouseClick(NonBlockingReader reader) throws IOException {
-        int b = 0, x = 0, y = 0;
-        if (reader.ready()) b = reader.read(); // 读取<b>
-        if (reader.ready()) x = reader.read() - 32; // 读取<x>
-        if (reader.ready()) y = reader.read() - 32; // 读取<y>
+        // 等待并读取鼠标事件的三个字节
+        int b = reader.read(50); // 按钮状态
+        int x = reader.read(50) - 32; // X坐标
+        int y = reader.read(50) - 32; // Y坐标
 
-        if ((b & 3) != 3 && (b & 64) == 0) {
+        // 检查读取是否成功
+        if (b == -1 || x == -1 || y == -1) {
+            return; // 读取超时或失败
+        }
+
+        // 检查是否为鼠标按下事件
+        if ((b & 3) != 3) {
+            System.out.println("触发点击事件: " + x + ", " + y);
             rootPanel.onClick(x, y);
         }
     }

@@ -75,15 +75,15 @@ public class Demo {
 ```java
 // 创建组件：相对坐标 (x=2, y=4)，宽 30，高 2
 BaseComponent component = new BaseComponent(2, 4, 30, 2) {
-    @Override
-    protected void renderContent() {
-        // 自定义渲染内容（如多行文本、边框等）
-        moveCursor(absY, absX);
-        terminal.writer().write("基础组件示例");
-        moveCursor(absY + 1, absX);
-        terminal.writer().write("宽度 30 | 高度 2");
-    }
-};
+            @Override
+            protected void renderContent() {
+                // 自定义渲染内容（如多行文本、边框等）
+                moveCursor(absY, absX);
+                terminal.writer().write("基础组件示例");
+                moveCursor(absY + 1, absX);
+                terminal.writer().write("宽度 30 | 高度 2");
+            }
+        };
 component.render();
 ```
 
@@ -92,22 +92,22 @@ component.render();
 ```java
 import io.yukk1o.easytermui.base.BasePanel;
 
-// 创建面板：坐标 (2, 7)，宽 30，高 5，标题 "示例面板"
-BasePanel panel = new BasePanel(2, 7, 30, 5, "示例面板") {
-    @Override
-    protected void layoutChildren() {
-        // 子组件自动布局（示例：垂直排列）
-        int y = 1;
-        for (BaseComponent child : getChildren()) {
-            child.setRelX(2);
-            child.setRelY(y);
-            y += child.getHeight() + 1;
+// 创建面板：坐标 (2, 7)，宽 30，高 5
+BasePanel panel = new BasePanel(2, 7, 30, 5") {
+        @Override
+        protected void layoutChildren() {
+            // 子组件自动布局（示例：垂直排列）
+            int y = 1;
+            for (BaseComponent child : getChildren()) {
+                child.setRelX(2);
+                child.setRelY(y);
+                y += child.getHeight() + 1;
+            }
         }
-    }
 };
 
 // 添加子组件
-panel.addComponent(new BaseComponent(0, 0, 20, 1) {
+        panel.addComponent(new BaseComponent(0, 0, 20, 1) {
     @Override
     protected void renderContent() {
         moveCursor(absY, absX);
@@ -115,7 +115,7 @@ panel.addComponent(new BaseComponent(0, 0, 20, 1) {
     }
 });
 
-panel.render();
+        panel.render();
 ```
 
 ### 3. 扩展自定义组件
@@ -137,7 +137,7 @@ public class CustomComponent extends BaseComponent {
     @Override
     protected void handleClick(int clickX, int clickY)
         System.out.println("组件被点击：(" + clickX + "," + clickY + ")");
-    }
+}
 }
 ```
 

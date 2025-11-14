@@ -1,4 +1,4 @@
-package io.yukk1o.easyTermUi.constant;
+package io.yukk1o.easytermui.constant;
 
 /**
  * ANSI控制序列常量类

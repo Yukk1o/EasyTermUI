@@ -40,18 +40,16 @@
     </properties>
 
     <dependencies>
-        <!-- 终端核心：JLine -->
         <dependency>
             <groupId>org.jline</groupId>
-            <artifactId>jline</artifactId>
-            <version>${jline.version}</version>
-            <scope>compile</scope>
+            <artifactId>jline-terminal-jni</artifactId>
+            <version>3.30.0</version>
         </dependency>
 
         <dependency>
             <groupId>org.jline</groupId>
-            <artifactId>jline-terminal-jni</artifactId>
-            <version>${terminal.version}</version>
+            <artifactId>jline</artifactId>
+            <version>3.30.0</version>
         </dependency>
     </dependencies>
 

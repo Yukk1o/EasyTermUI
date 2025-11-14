@@ -1,6 +1,6 @@
-package io.yukk1o.easyTermUi.component;
+package io.yukk1o.easytermui.component;
 
-import io.yukk1o.easyTermUi.base.BasePanel;
+import io.yukk1o.easytermui.base.BasePanel;
 
 public class Panel extends BasePanel {
 

@@ -1,6 +1,6 @@
-package io.yukk1o.easyTermUi.base;
+package io.yukk1o.easytermui.base;
 
-import io.yukk1o.easyTermUi.util.AnsiUtils;
+import io.yukk1o.easytermui.util.AnsiUtils;
 
 public abstract class BaseComponent implements Component {
     /// 坐标
@@ -122,7 +122,7 @@ public abstract class BaseComponent implements Component {
      */
     @Override
     public int getWidth() {
-        return 0;
+        return width;
     }
 
     /**
@@ -130,7 +130,7 @@ public abstract class BaseComponent implements Component {
      */
     @Override
     public int getHeight() {
-        return 0;
+        return height;
     }
 
     /**
@@ -138,7 +138,7 @@ public abstract class BaseComponent implements Component {
      */
     @Override
     public int getRelX() {
-        return 0;
+        return relX;
     }
 
     /**
@@ -146,7 +146,7 @@ public abstract class BaseComponent implements Component {
      */
     @Override
     public int getRelY() {
-        return 0;
+        return relY;
     }
 
     /**

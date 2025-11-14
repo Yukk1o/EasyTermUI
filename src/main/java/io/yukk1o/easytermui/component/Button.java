@@ -1,10 +1,11 @@
-package io.yukk1o.easyTermUi.component;
+package io.yukk1o.easytermui.component;
 
-import io.yukk1o.easyTermUi.base.BaseComponent;
+import io.yukk1o.easytermui.base.BaseComponent;
+import io.yukk1o.easytermui.util.AnsiUtils;
 import org.jline.utils.AttributedString;
 import org.jline.utils.AttributedStyle;
 
-import static io.yukk1o.easyTermUi.EasyTermUI.terminal;
+import static io.yukk1o.easytermui.EasyTermUI.terminal;
 
 public class Button extends BaseComponent {
     private final String text;
@@ -48,6 +49,9 @@ public class Button extends BaseComponent {
      */
     @Override
     public void renderContext() {
+        AnsiUtils.cursorHide();
+        AnsiUtils.moveCursor(this.absY, this.absX);
+
         /// 设置按钮样式(此处为蓝色 + 变粗)
         AttributedString buttonText = new AttributedString(
                 "[ " + text + " ]",

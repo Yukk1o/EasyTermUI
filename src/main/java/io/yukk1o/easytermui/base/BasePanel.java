@@ -1,11 +1,11 @@
-package io.yukk1o.easyTermUi.base;
+package io.yukk1o.easytermui.base;
 
-import io.yukk1o.easyTermUi.util.AnsiUtils;
+import io.yukk1o.easytermui.util.AnsiUtils;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import static io.yukk1o.easyTermUi.EasyTermUI.activeInputBox;
+import static io.yukk1o.easytermui.EasyTermUI.activeInputBox;
 
 public abstract class BasePanel extends BaseComponent {
     protected final List<BaseComponent> children = new ArrayList<>(); // 子组件列表
@@ -88,10 +88,10 @@ public abstract class BasePanel extends BaseComponent {
     public boolean onClick(int clickAbsX, int clickAbsY) {
         /// 1. 判断点击事件是否在当前Panel内
         if (!isInside(clickAbsX, clickAbsY)) {
-//            System.out.println("面板位置"  + " (" + absX + ", " + absY + " )");
-//            System.out.println("面板属性" + " (" + width + ", " + height + " )");
-//            System.out.println("点击位置" + " (" + clickAbsX + ", " + clickAbsY + " )");
-//            System.out.println(isInside(clickAbsX, clickAbsY));
+            System.out.println("面板位置"  + " (" + absX + ", " + absY + " )");
+            System.out.println("面板属性" + " (" + width + ", " + height + " )");
+            System.out.println("点击位置" + " (" + clickAbsX + ", " + clickAbsY + " )");
+            System.out.println(isInside(clickAbsX, clickAbsY));
             return false;
         }
 
@@ -135,16 +135,6 @@ public abstract class BasePanel extends BaseComponent {
     @Override
     public int getRelY() {
         return relY;
-    }
-
-    @Override
-    public int getAbsX() {
-        return 0;
-    }
-
-    @Override
-    public int getAbsY() {
-        return 0;
     }
 
     public List<Component> getChildren() {

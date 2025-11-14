@@ -1,4 +1,4 @@
-package io.yukk1o.easyTermUi.base;
+package io.yukk1o.easytermui.base;
 
 /**
  * 所有UI组件的统一接口（支持相对坐标+偏移量模式）
