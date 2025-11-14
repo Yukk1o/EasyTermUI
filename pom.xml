@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>io.yukk1o</groupId>
+    <artifactId>easytermui</artifactId>
+    <version>1.0.0</version>
+
+    <name>EasyTermUI</name>
+    <description>轻量易用的 Java 终端 UI 库（基于 JLine），支持组件化、无参渲染、终端自适应</description>
+    <url>https://github.com/yukk1o/EasyTermUI</url>
+    <licenses>
+        <license>
+            <name>MIT License</name>
+            <url>https://opensource.org/licenses/MIT</url>
+        </license>
+    </licenses>
+    <developers>
+        <developer>
+            <id>yukk1o</id>
+        </developer>
+    </developers>
+
+    <scm>
+        <connection>scm:git:https://github.com/yukk1o/EasyTermUI.git</connection>
+        <developerConnection>scm:git:git@github.com:yukk1o/EasyTermUI.git</developerConnection>
+        <url>https://github.com/yukk1o/EasyTermUI</url>
+        <tag>v1.0.0</tag>
+    </scm>
+
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <maven.compiler.source>17</maven.compiler.source>
+        <maven.compiler.target>17</maven.compiler.target>
+        <jline.version>3.25.0</jline.version>
+        <slf4j.version>2.0.9</slf4j.version>
+        <terminal.version>3.25.0</terminal.version>
+    </properties>
+
+    <dependencies>
+        <!-- 终端核心：JLine -->
+        <dependency>
+            <groupId>org.jline</groupId>
+            <artifactId>jline</artifactId>
+            <version>${jline.version}</version>
+            <scope>compile</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.jline</groupId>
+            <artifactId>jline-terminal-jni</artifactId>
+            <version>${terminal.version}</version>
+        </dependency>
+    </dependencies>
+
+    <!-- 5. 打包配置（适配 GitHub 下载：生成 JAR + 源码包） -->
+    <build>
+        <plugins>
+            <!-- 编译插件：指定 Java 版本和编码 -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.8.1</version>
+                <configuration>
+                    <source>${maven.compiler.source}</source>
+                    <target>${maven.compiler.target}</target>
+                    <encoding>${project.build.sourceEncoding}</encoding>
+                </configuration>
+            </plugin>
+
+            <!--- JAR 打包：生成 JAR 包（GitHub 用户可下载运行） -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
+                <version>3.3.0</version>
+                <configuration>
+                    <archive>
+                        <manifest>
+                            <mainClass>io.yukk1o.easytermui.EasyTermUI</mainClass> <!-- 库入口类 -->
+                            <addDefaultImplementationEntries>true</addDefaultImplementationEntries>
+                        </manifest>
+                    </archive>
+                </configuration>
+            </plugin>
+
+            <!-- 源码打包：生成源码 JAR（GitHub 用户可下载查看源码） -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-source-plugin</artifactId>
+                <version>3.3.1</version>
+                <executions>
+                    <execution>
+                        <id>easytermui-sources</id>
+                        <phase>verify</phase>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+
+</project>
