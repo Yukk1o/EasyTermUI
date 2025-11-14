@@ -1,4 +1,4 @@
-package io.yukk1o.easyTermUi.ulitis;
+package io.yukk1o.easyTermUi.util;
 
 import io.yukk1o.easyTermUi.constant.AnsiConstants;
 import org.jline.terminal.Terminal;

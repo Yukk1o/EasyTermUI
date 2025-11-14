@@ -1,8 +1,8 @@
 package io.yukk1o.easyTermUi;
 
-import io.yukk1o.easyTermUi.components.InputBox;
-import io.yukk1o.easyTermUi.components.Panel;
-import io.yukk1o.easyTermUi.thread.InteractiveListener;
+import io.yukk1o.easyTermUi.component.InputBox;
+import io.yukk1o.easyTermUi.component.Panel;
+import io.yukk1o.easyTermUi.base.InteractiveListener;
 import org.jline.terminal.Terminal;
 import org.jline.terminal.TerminalBuilder;
 import org.jline.utils.InfoCmp;
@@ -67,9 +67,14 @@ public class EasyTermUI {
 
         this.rootPanel = rootPanel;
         initialized = true;
-        render();
-        new InteractiveListener(this.rootPanel).start();
         return this;
+    }
+
+    private void start() {
+        if (initialized) {
+            render();
+            new InteractiveListener(this.rootPanel).start();
+        }
     }
 
     /**

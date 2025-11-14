@@ -1,8 +1,8 @@
-package io.yukk1o.easyTermUi.components;
+package io.yukk1o.easyTermUi.component;
 
 import io.yukk1o.easyTermUi.base.BaseComponent;
 import io.yukk1o.easyTermUi.constant.AnsiConstants;
-import io.yukk1o.easyTermUi.ulitis.AnsiUtils;
+import io.yukk1o.easyTermUi.util.AnsiUtils;
 
 import static io.yukk1o.easyTermUi.EasyTermUI.terminal;
 import static io.yukk1o.easyTermUi.EasyTermUI.activeInputBox;

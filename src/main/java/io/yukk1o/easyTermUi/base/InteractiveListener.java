@@ -1,6 +1,6 @@
-package io.yukk1o.easyTermUi.thread;
+package io.yukk1o.easyTermUi.base;
 
-import io.yukk1o.easyTermUi.components.Panel;
+import io.yukk1o.easyTermUi.component.Panel;
 import org.jline.utils.NonBlockingReader;
 
 import java.io.IOException;

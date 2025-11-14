@@ -1,6 +1,6 @@
 package io.yukk1o.easyTermUi.base;
 
-import io.yukk1o.easyTermUi.ulitis.AnsiUtils;
+import io.yukk1o.easyTermUi.util.AnsiUtils;
 
 import java.util.ArrayList;
 import java.util.List;

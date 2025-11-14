@@ -1,4 +1,4 @@
-package io.yukk1o.easyTermUi.components;
+package io.yukk1o.easyTermUi.component;
 
 import io.yukk1o.easyTermUi.base.BaseComponent;
 import org.jline.utils.AttributedString;
