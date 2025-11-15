@@ -1,5 +1,7 @@
 package io.yukk1o;
 
+
+
 import io.yukk1o.easytermui.EasyTermUI;
 import io.yukk1o.easytermui.component.Button;
 import io.yukk1o.easytermui.component.InputBox;
@@ -7,7 +9,6 @@ import io.yukk1o.easytermui.component.Panel;
 import io.yukk1o.easytermui.component.complex.table.Table;
 import io.yukk1o.easytermui.util.PrintUtils;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -15,18 +16,20 @@ import java.util.List;
 import static io.yukk1o.easytermui.EasyTermUI.writer;
 
 public class Main {
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) {
 
         initializeInterface();
 
         Panel rootPanel = new Panel(0, 0, 50, 50);
 
         /// 0
-        rootPanel.addComponent(new Button(5, 12, "登录", () -> PrintUtils.printAt(5, 14, "登录成功")
+        rootPanel.addComponent(new Button(5, 12, "登录", (button1) -> PrintUtils.printAt(5, 14, "登录成功")
         ));
 
         /// 1
-        rootPanel.addComponent(new Button(20, 12, "清屏", rootPanel::clear));
+        rootPanel.addComponent(new Button(20, 12, "清屏", (button1) -> {
+            rootPanel.clear();
+        }));
 
         /// 2
         rootPanel.addComponent(new InputBox(14, 7, 16));
@@ -59,20 +62,29 @@ public class Main {
     private static Table getTable() {
         LinkedHashMap<String, Integer> columnMeta = new LinkedHashMap<>();
         columnMeta.put("编号", 5);
-        columnMeta.put("书名", 10);
-        columnMeta.put("作者", 10);
+        columnMeta.put("书名", 7);
+        columnMeta.put("作者", 7);
         columnMeta.put("价格", 5);
+        columnMeta.put("操作按钮", 9);
 
         Table table = new Table(0, 15, 5, columnMeta);
 
         List<testEntity> data = new ArrayList<>();
-        testEntity book1 = new testEntity(1, "《算法导论》", "R.L.Rivest", 100);
+        testEntity book1 = new testEntity(1, "《算法导论》", "R.L.Rivest", 100, new Button(0, 0, "QQ", (button) -> {
+            System.out.println(button.getBindData());
+        }));
         data.add(book1);
-        testEntity book2 = new testEntity(2, "《数据结构》", "R.L.Rivest", 80);
+        testEntity book2 = new testEntity(2, "《数据结构》", "R.L.Rivest", 80, new Button(0, 0, "QQ", (button) -> {
+            System.out.println(button.getBindData());
+        }));
         data.add(book2);
-        testEntity book3 = new testEntity(3, "《计算机网络》", "R.L.Rivest", 60);
+        testEntity book3 = new testEntity(3, "《计算机网络》", "R.L.Rivest", 60, new Button(0, 0, "QQ", (button) -> {
+            System.out.println(button.getBindData());
+        }));
         data.add(book3);
-        testEntity book4 = new testEntity(4, "《软件工程》", "R.L.Rivest", 40);
+        testEntity book4 = new testEntity(4, "《软件工程》", "R.L.Rivest", 40, new Button(0, 0, "QQ", (button) -> {
+            System.out.println(button.getBindData());
+        }));
         data.add(book4);
 
         table.setData(data);

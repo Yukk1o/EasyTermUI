@@ -16,6 +16,9 @@ public abstract class BaseComponent implements Component {
     /// 绝对X
     protected volatile int absY;
 
+    /// 绑定数据
+    protected Object bindData;
+
     /// ================================= 自带方法 ==================================
     /**
      * 组件构造函数
@@ -187,6 +190,22 @@ public abstract class BaseComponent implements Component {
     @Override
     public void setRelY(int relY) {
         this.relY = relY;
+    }
+
+    /**
+     * 获取绑定数据
+     */
+    @Override
+    public Object getBindData() {
+        return bindData;
+    }
+
+    /**
+     * 设置绑定数据
+     */
+    @Override
+    public void setBindData(Object bindData) {
+        this.bindData = bindData;
     }
 
     /**

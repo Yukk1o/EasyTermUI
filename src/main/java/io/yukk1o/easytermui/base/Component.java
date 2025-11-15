@@ -81,4 +81,8 @@ public interface Component {
      * 设置组件相对Y坐标
      */
     void setRelY(int relY);
+
+    Object getBindData();
+
+    void setBindData(Object bindData);
 }

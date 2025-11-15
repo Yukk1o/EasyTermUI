@@ -1,5 +1,6 @@
 package io.yukk1o.easytermui.component.complex.table;
 
+import io.yukk1o.easytermui.base.BaseComponent;
 import io.yukk1o.easytermui.base.BasePanel;
 import io.yukk1o.easytermui.component.Text;
 import io.yukk1o.easytermui.util.MapUtils;
@@ -35,7 +36,16 @@ public class Table extends BasePanel {
         this.columnMeta = columnMeta;
 
         /// 添加表头组件
-        addComponent(new TableRow(0, 0, width, columnMeta));
+        int posX = 0;
+        int p = 26;
+        for (Object columnValue : columnMeta.keySet()) {
+            String value = columnValue.toString();
+            Integer textWidth = columnMeta.get(value);
+
+            Text text = new Text(posX, 0, textWidth, 1, value);
+            addComponent(text);
+            posX += textWidth + 1;
+        }
 
         /// 添加分割线文本
         String line = "‾".repeat(width);
@@ -47,38 +57,52 @@ public class Table extends BasePanel {
      *
      * @param data 表格数据源
      */
-    public <E> void setData(List<E> data) {
-        LinkedHashMap<String, Object> fieldValues = ObjectReflectUtils.getFieldValues(data.get(0));
+public <E> void setData(List<E> data) {
+    if (data == null || data.isEmpty()) {
+        throw new IllegalArgumentException("数据源不能为空！");
+    }
+    
+    LinkedHashMap<String, Object> fieldValues = ObjectReflectUtils.getFieldValues(data.get(0));
 
-        /// 数据源字段数量为0
-        if (fieldValues.isEmpty()) {
-            throw new IllegalArgumentException("数据源字段数量为0！");
+    /// 数据源字段数量为0
+    if (fieldValues.isEmpty()) {
+        throw new IllegalArgumentException("数据源字段数量为0！");
+    }
+    /// 数据源字段数量与列数量不一致
+    if (fieldValues.size() != columnMeta.size()) {
+        throw new IllegalArgumentException("数据源字段数量与列数量不一致！");
+    }
+
+    if (!(this.data.length == 0)) {
+        Arrays.fill(this.data, null);
+    }
+
+    /**
+     *  清空子组件并清屏
+     */
+    getChildren().clear();
+    clear();
+
+    int actualDataSize = Math.min(data.size(), this.data.length);
+    for (int i = 0; i < actualDataSize; i++) {
+        if (data.get(i) == null) {
+            continue;
         }
-        /// 数据源字段数量与列数量不一致
-        if (fieldValues.size() != columnMeta.size()) {
-            throw new IllegalArgumentException("数据源字段数量与列数量不一致！");
+        this.data[i] = data.get(i);
+
+        Object[] cloWidth = columnMeta.values().toArray();
+        Object[] values = ObjectReflectUtils.getFieldValues(data.get(i)).values().toArray();
+
+        LinkedHashMap<Object, Integer> columnValues = new LinkedHashMap<>();
+        int relX = 0;
+
+        for (int j = 0; j < cloWidth.length; j++) {
+            Object value = values[j];
+            columnValues.put(values[j], (Integer) cloWidth[j]);
         }
 
-        if (!(this.data.length == 0)) {
-            Arrays.fill(this.data, null);
-        }
-
-        int actualDataSize = Math.min(data.size(), this.data.length);
-        for (int i = 0; i < actualDataSize; i++) {
-            if (data.get(i) == null) {
-                continue;
-            }
-            this.data[i] = data.get(i);
-
-            Object[] width = columnMeta.values().toArray();
-            Object[] values = ObjectReflectUtils.getFieldValues(data.get(i)).values().toArray();
-
-            LinkedHashMap<String, Integer> columnValues = new LinkedHashMap<>();
-            for (int j = 0; j < width.length; j++) {
-                columnValues.put(values[j].toString(), (Integer)  width[j]);
-            }
-
-            addComponent(new TableRow(0, i + 2, this.width, columnValues));
+        addComponent(new TableRow(0, i + 2, this.width, columnValues, data.get(i)));
         }
     }
+
 }

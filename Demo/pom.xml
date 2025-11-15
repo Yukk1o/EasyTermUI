@@ -19,13 +19,9 @@
             <groupId>io.yukk1o</groupId>
             <artifactId>easytermui</artifactId>
             <version>1.0.0</version>
-        </dependency>
-        <dependency>
-            <groupId>io.yukk1o</groupId>
-            <artifactId>easytermui</artifactId>
-            <version>1.0.0</version>
             <scope>compile</scope>
         </dependency>
+
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
