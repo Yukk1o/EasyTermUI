@@ -8,7 +8,7 @@ import java.util.List;
 import static io.yukk1o.easytermui.EasyTermUI.activeInputBox;
 
 public abstract class BasePanel extends BaseComponent {
-    protected final List<BaseComponent> children = new ArrayList<>(); // 子组件列表
+    private List<BaseComponent> children = new ArrayList<>(); // 子组件列表
     // ================================== 构造方法 ==================================
 
     /**
@@ -29,14 +29,21 @@ public abstract class BasePanel extends BaseComponent {
      * 添加子组件
      */
     public void addComponent(BaseComponent component) {
+        /// 1. 校验子组件非空
+        if (component == null) {
+            throw new IllegalArgumentException("子组件不能为null");
+        }
+
+        /// 3. 校验子组件是否超出父面板边界
         boolean isOutOfWidth = component.getRelX() + component.getWidth() > this.width;
 
         boolean isOutOfHeight = component.getRelY() + component.getHeight() > this.height;
+
         if (isOutOfHeight || isOutOfWidth) {
-            throw new IllegalArgumentException("子组件超出父面板边界！父面板：宽" + width + "×高" + height);
+            throw new IllegalArgumentException("子组件超出父面板边界！父面板：宽" + width + "×高" + height + "组件ID: " + component);
         }
+
         children.add(component);
-        component.parent = this;
     }
 
     /**
@@ -44,6 +51,24 @@ public abstract class BasePanel extends BaseComponent {
      */
     public void removeComponent(BaseComponent component) {
         children.remove(component);
+    }
+
+    /**
+     * 移除所有子组件
+     */
+    public void removeAllComponents() {
+        children.clear();
+    }
+
+    // ================================== 板块处理 ==================================
+
+    /**
+     * 清空面板
+     * 组件需要重新渲染,否则无法正常使用
+     */
+    public void clear() {
+        AnsiUtils.cursorHide();
+        AnsiUtils.clear(this.absY, this.absY + this.height, this.absX, this.absX + this.width);
     }
 
     // ================================== Component接口实现 ==================================
@@ -88,10 +113,6 @@ public abstract class BasePanel extends BaseComponent {
     public boolean onClick(int clickAbsX, int clickAbsY) {
         /// 1. 判断点击事件是否在当前Panel内
         if (!isInside(clickAbsX, clickAbsY)) {
-            System.out.println("面板位置"  + " (" + absX + ", " + absY + " )");
-            System.out.println("面板属性" + " (" + width + ", " + height + " )");
-            System.out.println("点击位置" + " (" + clickAbsX + ", " + clickAbsY + " )");
-            System.out.println(isInside(clickAbsX, clickAbsY));
             return false;
         }
 
@@ -117,27 +138,8 @@ public abstract class BasePanel extends BaseComponent {
     }
 
     // ================================== Getter方法 ==================================
-    @Override
-    public int getWidth() {
-        return width;
-    }
-
-    @Override
-    public int getHeight() {
-        return height;
-    }
-
-    @Override
-    public int getRelX() {
-        return relX;
-    }
-
-    @Override
-    public int getRelY() {
-        return relY;
-    }
 
     public List<Component> getChildren() {
-        return new ArrayList<>(children); // 返回不可修改列表，避免外部篡改
+        return new ArrayList<>(children);
     }
 }

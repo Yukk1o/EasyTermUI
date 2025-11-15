@@ -2,7 +2,7 @@ package io.yukk1o.easytermui;
 
 import io.yukk1o.easytermui.component.InputBox;
 import io.yukk1o.easytermui.component.Panel;
-import io.yukk1o.easytermui.base.InteractiveListener;
+import io.yukk1o.easytermui.base.Listener.InteractiveListener;
 import org.jline.terminal.Terminal;
 import org.jline.terminal.TerminalBuilder;
 import org.jline.utils.InfoCmp;

@@ -1,4 +1,4 @@
-package io.yukk1o.easytermui.base;
+package io.yukk1o.easytermui.base.Listener;
 
 
 import io.yukk1o.easytermui.component.Panel;
@@ -76,7 +76,6 @@ public class InteractiveListener {
 
         // 检查是否为鼠标按下事件
         if ((b & 3) != 3) {
-            System.out.println("触发点击事件: " + x + ", " + y);
             rootPanel.onClick(x, y);
         }
     }
