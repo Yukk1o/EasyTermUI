@@ -13,8 +13,6 @@ public class InputBox extends BaseComponent {
     /// 最大输入长度
     private final StringBuilder inputValue = new StringBuilder();
     /// 输入值
-    private final CharSequence underline;
-    /// 下划线
     private final String escape;
     private volatile boolean isEditing = false;
     /// 编辑状态
@@ -32,7 +30,6 @@ public class InputBox extends BaseComponent {
         super(relX, relY, maxLength, 2);
         this.maxLength = maxLength;
 
-        this.underline = "‾".repeat(maxLength);
         this.escape = "\b".repeat(maxLength);
     }
 
@@ -46,7 +43,7 @@ public class InputBox extends BaseComponent {
         AnsiUtils.executeTerminalOperation(() -> {
             AnsiUtils.cursorHide();
             AnsiUtils.moveCursor(this.absY + 1, this.absX);
-            terminal.writer().write(AnsiConstants.STYLE_BOLD_BLUE + underline + AnsiConstants.STYLE_RESET);
+            terminal.writer().write(AnsiConstants.STYLE_BOLD_BLUE + "‾".repeat(maxLength) + AnsiConstants.STYLE_RESET);
         });
         render();
     }

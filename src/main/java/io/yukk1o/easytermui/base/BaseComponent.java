@@ -3,23 +3,18 @@ package io.yukk1o.easytermui.base;
 import io.yukk1o.easytermui.util.AnsiUtils;
 
 public abstract class BaseComponent implements Component {
-    /// 坐标
-    protected final int relX;
     /// 相对X
-    protected final int relY;
-    /// 绝对Y
-    /// 尺寸
-    protected final int width;
-    /// 宽度
-    protected final int height;
+    protected int relX;
     /// 相对Y
-    /// 绝对坐标
+    protected int relY;
+    /// 宽度
+    protected final int width;
+    /// 高度
+    protected final int height;
+    /// 绝对Y
     protected volatile int absX;
     /// 绝对X
     protected volatile int absY;
-    /// 高度
-    /// 父组件
-    BasePanel parent;
 
     /// ================================= 自带方法 ==================================
     /**
@@ -35,6 +30,18 @@ public abstract class BaseComponent implements Component {
         this.relY = relY;
         this.width = width;
         this.height = height;
+
+        if (relX < 0 || relY < 0) {
+            throw new IllegalArgumentException(
+                    String.format("组件坐标不能为负数！组件坐标：(%d, %d)", relX, relY)
+            );
+        }
+
+        if (width <= 0 || height <= 0) {
+            throw new IllegalArgumentException(
+                    String.format("组件宽高不能小于等于0！组件宽高：(%d, %d)", width, height)
+            );
+        }
     }
 
     /**
@@ -115,7 +122,24 @@ public abstract class BaseComponent implements Component {
      */
     public abstract void handleClick(int clickAbsX, int clickAbsY);
 
-    //================================== 尺寸/边界相关 ==================================
+
+    /// =========================== Getter方法 / Setter方法 ===========================
+
+    /**
+     * 获取相对X
+     */
+    @Override
+    public int getRelX() {
+        return relX;
+    }
+
+    /**
+     * 获取相对Y
+     */
+    @Override
+    public int getRelY() {
+        return relY;
+    }
 
     /**
      * 获取组件宽度
@@ -134,33 +158,49 @@ public abstract class BaseComponent implements Component {
     }
 
     /**
-     * 获取组件相对X坐标
+     * 获取绝对X
      */
     @Override
-    public int getRelX() {
-        return relX;
-    }
-
-    /**
-     * 获取组件相对Y坐标
-     */
-    @Override
-    public int getRelY() {
-        return relY;
-    }
-
-    /**
-     * 获取组件绝对X坐标
-     */
     public int getAbsX() {
         return absX;
     }
 
     /**
-     * 获取组件绝对Y坐标
+     * 获取绝对Y
      */
+    @Override
     public int getAbsY() {
         return absY;
     }
-    //================================== 尺寸/边界相关 ==================================
+
+    /**
+     * 设置相对X
+     */
+    @Override
+    public void setRelX(int relX) {
+        this.relX = relX;
+    }
+
+    /**
+     * 设置相对Y
+     */
+    @Override
+    public void setRelY(int relY) {
+        this.relY = relY;
+    }
+
+    /**
+     * 组件信息
+     */
+    @Override
+    public String toString() {
+        return "BaseComponent{" +
+                "relX=" + relX +
+                ", relY=" + relY +
+                ", width=" + width +
+                ", height=" + height +
+                ", absX=" + absX +
+                ", absY=" + absY +
+                '}';
+    }
 }

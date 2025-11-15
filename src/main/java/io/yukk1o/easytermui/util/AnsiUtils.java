@@ -34,7 +34,7 @@ public class AnsiUtils {
      */
     public static void moveCursor(int row, int col) {
         executeTerminalOperation(() -> {
-            if (row <= 0 || col <= 0) {
+            if (row < 0 || col < 0) {
                 throw new IndexOutOfBoundsException("Row or col is illegal value");
             }
             terminal.writer().write(AnsiConstants.ESC + "[" + row + AnsiConstants.SEPARATOR + col + AnsiConstants.CURSOR_SUFFIX);
@@ -98,13 +98,18 @@ public class AnsiUtils {
      *
      * @param startRow 起始行
      * @param endRow   结束行
+     * @param startCol 起始列
+     * @param endCol   结束列
      */
-    public static void clearLines(Terminal terminal, int startRow, int endRow) {
+    public static void clear(int startRow, int endRow, int startCol, int endCol) {
         if (startRow > endRow) return;
+        int width = endCol - startCol + 1;
+        String escape = "\b".repeat(width) + " ".repeat(width);
+
         executeTerminalOperation(() -> {
-            for (int row = startRow; row <= endRow; row++) {
-                moveCursor(row, 1);
-                terminal.writer().write(AnsiConstants.CLEAR_LINE);
+            for (int row = startRow; row < endRow; row++) {
+                moveCursor(row, endCol);
+                terminal.writer().write(escape);
             }
         });
     }

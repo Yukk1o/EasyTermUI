@@ -71,4 +71,14 @@ public interface Component {
      * 获取组件绝对Y坐标
      */
     int getAbsY();
+
+    /**
+     * 设置组件相对X坐标
+     */
+    void setRelX(int relX);
+
+    /**
+     * 设置组件相对Y坐标
+     */
+    void setRelY(int relY);
 }
