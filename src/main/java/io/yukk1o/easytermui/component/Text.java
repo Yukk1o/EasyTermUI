@@ -7,6 +7,7 @@ import io.yukk1o.easytermui.util.PrintUtils;
 public class Text extends BaseComponent {
     String text;
 
+
     /**
      * 文本构建函数
      *
@@ -28,13 +29,15 @@ public class Text extends BaseComponent {
             return;
         }
 
-        int linesNeeded = (text.length() + width - 1) / width; /// 计算需要多少行来显示文本
-        int actualLines = Math.min(linesNeeded, height); /// 实际绘制的行数不超过组件高度
+        int totalLines = Math.min(height, (text.length() + width - 1) / width);
 
-        for (int i = 0; i < actualLines; i++) {
+        for (int i = 0; i < totalLines; i++) {
             int start = i * width;
             int end = Math.min((i + 1) * width, text.length());
+
             String line = text.substring(start, end);
+            line = String.format("%-" + width + "s", line);
+
             PrintUtils.printAt(absY + i, absX, line);
         }
     }

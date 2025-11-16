@@ -32,6 +32,7 @@ public class TableRow extends BasePanel {
                 component.setRelY(0);
                 component.setBindData(data);
                 addComponent(component);
+                posX += columnValues.get(columnValue) + 1;
             } else {
                 String value = columnValue.toString();
                 Integer textWidth = columnValues.get(columnValue);
