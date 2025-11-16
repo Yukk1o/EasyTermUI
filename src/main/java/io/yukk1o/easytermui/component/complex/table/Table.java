@@ -5,16 +5,33 @@ import io.yukk1o.easytermui.base.BasePanel;
 import io.yukk1o.easytermui.component.Text;
 import io.yukk1o.easytermui.util.AnsiUtils;
 import io.yukk1o.easytermui.util.MapUtils;
-import io.yukk1o.easytermui.util.PrintUtils;
 import io.yukk1o.easytermui.util.reflect.ObjectReflectUtils;
+import lombok.AllArgsConstructor;
+import lombok.Data;
 
-import java.util.Arrays;
-import java.util.LinkedHashMap;
-import java.util.List;
+import java.util.*;
 
 public class Table extends BasePanel {
     Object[] data;
     LinkedHashMap<String, Integer> columnMeta;
+
+    public static class TableCell {
+        private final Object data;
+        private final int columnWidth;
+
+        public TableCell(Object data, int columnWidth) {
+            this.columnWidth = columnWidth;
+            this.data = data;
+        }
+
+        public Object getData() {
+            return data;
+        }
+
+        public int getColumnWidth() {
+            return columnWidth;
+        }
+    }
 
     /**
      * 表格构造函数
@@ -38,10 +55,7 @@ public class Table extends BasePanel {
         this.columnMeta = columnMeta;
 
         /// 添加表头组件
-        int posX = 0;
-        int p = 26;
-
-        addComponent(new TableRow(0, 0, width, new LinkedHashMap<>(columnMeta), null));
+        addComponent(new TableRow(0, 0, width, converMapTOTableCellList(columnMeta), null));
 
         /// 添加分割线文本
         String line = "‾".repeat(width);
@@ -51,34 +65,28 @@ public class Table extends BasePanel {
     /**
      * 设置表格数据
      *
-     * @param data 表格数据源
+     * @param dataSource 表格数据源
      */
-public <E> void setData(List<E> data) {
-//    if (data == null || data.isEmpty()) {
-//        throw new IllegalArgumentException("数据源不能为空！");
-//    }
+    public <E> void setData(List<E> dataSource) {
+        LinkedHashMap<String, Object> fieldValues = ObjectReflectUtils.getFieldValues(dataSource.get(0));
 
-    LinkedHashMap<String, Object> fieldValues = ObjectReflectUtils.getFieldValues(data.get(0));
-
-    /// 数据源字段数量与列数量不一致
-    if (fieldValues.size() != columnMeta.size()) {
-        throw new IllegalArgumentException("数据源字段数量与列数量不一致！");
-    }
-
-    if (!(this.data.length == 0)) {
-        Arrays.fill(this.data, null);
-        }
-    int actualDataSize = Math.min(data.size(), this.data.length);
-    for (int i = 0; i < actualDataSize; i++) {
-        if (data.get(i) == null) {
-            continue;
+        /// 数据源字段数量与列数量不一致
+        if (fieldValues.size() != columnMeta.size()) {
+            throw new IllegalArgumentException("数据源字段数量与列数量不一致！");
         }
 
-        this.data[i] = data.get(i);
+        if (!(this.data.length == 0)) {
+            Arrays.fill(this.data, null);
+            }
+        int actualDataSize = Math.min(dataSource.size(), this.data.length);
+        for (int i = 0; i < actualDataSize; i++) {
+            if (dataSource.get(i) == null) {
+                continue;
+            }
+
+            this.data[i] = dataSource.get(i);
+        }
     }
-}
-
-
 
     @Override
     public void renderContext() {
@@ -92,21 +100,29 @@ public <E> void setData(List<E> data) {
             if (data[i] == null) {
                 continue;
             }
-            Object[] cloWidth = columnMeta.values().toArray();
-            Object[] values = ObjectReflectUtils.getFieldValues(data[i]).values().toArray();
+            Object[] columnWidths = columnMeta.values().toArray();
+            Object[] fieldValues = ObjectReflectUtils.getFieldValues(data[i]).values().toArray();
 
-            LinkedHashMap<Object, Integer> columnValues = new LinkedHashMap<>();
-            int relX = 0;
-
-            for (int j = 0; j < cloWidth.length; j++) {
-                Object value = values[j];
-                columnValues.put(values[j], (Integer) cloWidth[j]);
+            List<TableCell> rowCells = new LinkedList<>();
+            for (int j = 0; j < columnWidths.length; j++) {
+                Object cellData = j < fieldValues.length ? fieldValues[j] : "null";
+                int width = (Integer) columnWidths[j];
+                rowCells.add(new TableCell(cellData, width));
             }
 
-            addComponent(new TableRow(0, i + 2, this.width, columnValues, data[i]));
+            addComponent(new TableRow(0, i + 2, this.width, rowCells, data[i]));
             }
 
         super.renderContext();
     }
+
+    private List<TableCell> converMapTOTableCellList(LinkedHashMap<String, Integer> map) {
+        ArrayList<TableCell> cellList = new ArrayList<>();
+        map.forEach((key, value) -> {
+            cellList.add(new TableCell(key, value));
+        });
+        return cellList;
+    }
+
 
 }
