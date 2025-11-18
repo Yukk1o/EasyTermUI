@@ -1,11 +1,14 @@
 package io.yukk1o.easytermui.base;
 
+import io.yukk1o.easytermui.constant.AnsiConstants;
 import io.yukk1o.easytermui.util.AnsiUtils;
+import io.yukk1o.easytermui.util.PrintUtils;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import static io.yukk1o.easytermui.EasyTermUI.activeInputBox;
+import static io.yukk1o.easytermui.EasyTermUI.writer;
 
 public abstract class BasePanel extends BaseComponent {
     private List<BaseComponent> children = new ArrayList<>(); // 子组件列表
@@ -69,6 +72,23 @@ public abstract class BasePanel extends BaseComponent {
     public void clear() {
         AnsiUtils.cursorHide();
         AnsiUtils.clear(this.absY, this.absY + this.height, this.absX, this.absX + this.width);
+    }
+
+    /**
+     * 边框绘制
+     */
+    public void drawBorder() {
+        if (this.getWidth() <= 2 || this.getHeight() <= 2) {
+            return;
+        }
+        AnsiUtils.executeTerminalOperation(() -> {
+            /// 边框绘制
+            PrintUtils.printAt(absY, absX, "┌" + "─".repeat(getWidth() - 2) + "┐");
+            for (int i = 1; i < height; i++) {
+                PrintUtils.printAt(absY + i, absX, "│" + " ".repeat(getWidth() - 2) + "│");
+            }
+            PrintUtils.printAt(absY + getHeight() - 1, absX, "└" + "─".repeat(getWidth() - 2) + "┘");
+        });
     }
 
     // ================================== Component接口实现 ==================================
