@@ -4,7 +4,6 @@ import io.yukk1o.easytermui.base.BasePanel;
 import io.yukk1o.easytermui.component.InputBox;
 import io.yukk1o.easytermui.component.Panel;
 import io.yukk1o.easytermui.base.Listener.InteractiveListener;
-import io.yukk1o.easytermui.constant.AnsiConstants;
 import org.jline.terminal.Terminal;
 import org.jline.terminal.TerminalBuilder;
 import org.jline.utils.InfoCmp;
@@ -88,9 +87,6 @@ public class EasyTermUI {
 
         interactiveListener.stopListener();
 
-        /// 渲染弹窗UI
-        dialog.render();
-
         /// 创建监听器
         Panel dialogWindows = new Panel(0, 0, terminalWidth, terminalHeight);
         dialogWindows.addComponent(dialog);
@@ -98,6 +94,7 @@ public class EasyTermUI {
         InteractiveListener dialogListener = new InteractiveListener(dialogWindows);
         dialog.setBindData(dialogListener); /// 为弹窗绑定监听器
 
+        dialogWindows.render();
         dialogListener.start();
 
         /// 恢复界面并启动监听器
