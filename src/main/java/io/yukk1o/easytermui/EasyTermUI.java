@@ -1,8 +1,10 @@
 package io.yukk1o.easytermui;
 
+import io.yukk1o.easytermui.base.BasePanel;
 import io.yukk1o.easytermui.component.InputBox;
 import io.yukk1o.easytermui.component.Panel;
 import io.yukk1o.easytermui.base.Listener.InteractiveListener;
+import io.yukk1o.easytermui.constant.AnsiConstants;
 import org.jline.terminal.Terminal;
 import org.jline.terminal.TerminalBuilder;
 import org.jline.utils.InfoCmp;
@@ -14,12 +16,14 @@ public class EasyTermUI {
     /// 终端
     public static final Terminal terminal;
     /// 初始化
-    public static Boolean initialized = false;
+    public Boolean initialized = false;
     /// 激活组件
     public static InputBox activeInputBox;
     /// 终端宽度
     /// 输出器
     public static PrintWriter writer;
+    /// 监听器
+    InteractiveListener interactiveListener;
 
     static {
         try {
@@ -39,7 +43,7 @@ public class EasyTermUI {
     }
 
     /// 根面板
-    public Panel rootPanel;
+    public BasePanel rootPanel;
     int terminalHeight = terminal.getHeight();
     /// 终端高度
     int terminalWidth = terminal.getWidth();
@@ -49,7 +53,7 @@ public class EasyTermUI {
     /**
      * 构建方法
      */
-    public EasyTermUI init(Panel rootPanel) {
+    public EasyTermUI init(BasePanel rootPanel) {
         if (initialized) {
             return this;
         }
@@ -66,9 +70,52 @@ public class EasyTermUI {
 
         this.rootPanel = rootPanel;
         initialized = true;
-        render();
-        new InteractiveListener(this.rootPanel).start();
+
+
+        interactiveListener = new InteractiveListener(rootPanel);
+        start();
+
         return this;
+    }
+
+    /**
+     * 挂载弹窗方法
+     */
+    public void mount(BasePanel dialog) {
+        if (!initialized) {
+            throw new RuntimeException("请先初始化");
+        }
+
+        interactiveListener.stopListener();
+
+        /// 渲染弹窗UI
+        dialog.render();
+
+        /// 创建监听器
+        Panel dialogWindows = new Panel(0, 0, terminalWidth, terminalHeight);
+        dialogWindows.addComponent(dialog);
+
+        InteractiveListener dialogListener = new InteractiveListener(dialogWindows);
+        dialog.setBindData(dialogListener); /// 为弹窗绑定监听器
+
+        dialogListener.start();
+
+        /// 恢复界面并启动监听器
+        dialog.clear();
+        writer.flush();
+        start();
+    }
+
+    public void start() {
+        render();
+        interactiveListener.start();
+    }
+
+    public void stop() {
+        if (!initialized) {
+            throw new RuntimeException("请先初始化");
+        }
+        interactiveListener.stopListener();
     }
 
     /**

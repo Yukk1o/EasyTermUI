@@ -10,4 +10,10 @@ public class PrintUtils {
         AnsiUtils.moveCursor(row, col);
         writer.write(text);
     }
+
+    public static void clearScreen() {
+        AnsiUtils.cursorHide();
+        AnsiUtils.moveCursor(0, 0);
+        writer.write("\033[2J");
+    }
 }

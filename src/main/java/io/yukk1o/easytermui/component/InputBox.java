@@ -146,7 +146,7 @@ public class InputBox extends BaseComponent {
      * 获取输入值
      */
     public String getValue() {
-        return inputValue.toString().trim();
+        return inputValue.toString().trim().isEmpty() ? null : inputValue.toString().trim();
     }
 
     /**
