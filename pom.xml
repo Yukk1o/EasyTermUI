@@ -6,7 +6,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>io.yukk1o</groupId>
     <artifactId>easytermui</artifactId>
-    <version>1.0.5</version>
+    <version>1.0.6</version>
 
     <name>EasyTermUI</name>
     <description>轻量易用的 Java 终端 UI 库（基于 JLine），支持组件化、无参渲染、终端自适应</description>

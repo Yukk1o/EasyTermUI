@@ -1,7 +1,8 @@
 package io.yukk1o.easytermui.base.Listener;
 
 
-import io.yukk1o.easytermui.component.Panel;
+import io.yukk1o.easytermui.base.BasePanel;
+import io.yukk1o.easytermui.util.PrintUtils;
 import org.jline.utils.NonBlockingReader;
 
 import java.io.IOException;
@@ -12,11 +13,11 @@ import static io.yukk1o.easytermui.EasyTermUI.terminal;
 
 public class InteractiveListener {
     private final NonBlockingReader reader;
-    private final Panel rootPanel;
+    private final BasePanel rootPanel;
     private boolean running = false;
 
     // 构造器：传入终端/按钮集合/输入框集合
-    public InteractiveListener(Panel rootPanel) {
+    public InteractiveListener(BasePanel rootPanel) {
         reader = terminal.reader();
         this.rootPanel = rootPanel;
     }
@@ -38,6 +39,11 @@ public class InteractiveListener {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    /// 关闭监听
+    public void stopListener() {
+        running = false;
     }
 
     private void handleEscapeSequence() throws IOException {

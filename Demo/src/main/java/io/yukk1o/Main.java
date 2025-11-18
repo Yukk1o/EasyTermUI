@@ -1,7 +1,5 @@
 package io.yukk1o;
 
-
-
 import io.yukk1o.easytermui.EasyTermUI;
 import io.yukk1o.easytermui.component.Button;
 import io.yukk1o.easytermui.component.InputBox;
@@ -19,12 +17,22 @@ public class Main {
     public static void main(String[] args) {
 
         initializeInterface();
+        EasyTermUI easyTermUI = new EasyTermUI();
 
         Panel rootPanel = new Panel(0, 0, 50, 50);
 
         /// 0
         rootPanel.addComponent(new Button(5, 12, "登录", (button1) -> PrintUtils.printAt(5, 14, "登录成功")
         ));
+
+        Button testButton = new Button(30, 12, "弹窗", (button1) ->
+        {
+            testDialog testDialog = new testDialog(20, 20);
+            easyTermUI.mount(testDialog);
+        }
+        );
+
+        rootPanel.addComponent(testButton);
 
         /// 1
         rootPanel.addComponent(new Button(20, 12, "清屏", (button1) -> {
@@ -39,11 +47,10 @@ public class Main {
 
 
 
-
         /// 3
         rootPanel.addComponent(new InputBox(14, 9, 16));
 
-        new EasyTermUI().init(rootPanel);
+        easyTermUI.init(rootPanel);
 
         while (true) {
             try {
