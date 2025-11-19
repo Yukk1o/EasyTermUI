@@ -1,4 +1,4 @@
-# EasyTermUI 🖥️
+# EasyTermUI 🖥️(⚠️将来将会大规模重构⚠️)
 轻量易用的 Java 终端 UI 库（基于 JLine），主打「极简配置、组件化开发、开箱即用」—— 无需复杂上下文，一行 `render()` 直接渲染，快速构建终端应用。
 
 [![MIT License](https://img.shields.io/badge/License-MIT-green.svg)](https://opensource.org/licenses/MIT)
