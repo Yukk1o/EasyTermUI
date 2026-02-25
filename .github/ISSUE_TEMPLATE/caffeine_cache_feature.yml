@@ -1,5 +1,5 @@
 name: ✨ 功能需求
-description: 提交新功能开发或现有功能优化的需求
+description: 提交新功能开发或现有功能优化的需求（参考 Caffeine 缓存系统示例）
 labels: ["feature", "needs-triage"]
 assignees: []
 body:
@@ -8,12 +8,17 @@ body:
       value: |
         # 功能需求提交模板
         请清晰描述需求背景、核心诉求和业务价值，便于评估和实现
+        ## 📌 参考示例（Caffeine 缓存系统）
+        > 功能需求：完成基于 Spring Boot Cache 二次封装的 Caffeine 缓存系统实现
+        > 分支：cache | 优先级：high | 状态：testing
+        > 核心特性：原生 Spring Cache 兼容、配置驱动、多缓存名独立配置、架构可扩展等
   - type: textarea
     id: feature-background
     attributes:
       label: 📖 需求背景
       description: 该需求解决什么业务问题/用户痛点？
-      placeholder: 示例：帖子列表加载速度慢，用户反馈等待时间过长
+      placeholder: |
+        示例：帖子列表加载速度慢，用户反馈等待时间过长；现有缓存方案无统一配置管理，维护成本高
     validations:
       required: true
 
@@ -23,9 +28,10 @@ body:
       label: 🎯 核心诉求
       description: 具体需要实现的功能点（分点说明）
       placeholder: |
-        1. 新增帖子列表本地缓存
-        2. 缓存过期时间可配置
-        3. 支持缓存主动刷新
+        1. 基于 Spring Boot Cache 二次封装 Caffeine 缓存系统
+        2. 支持配置驱动管理（cache.type=CAFFEINE + cache.caffeine.caches.*）
+        3. 多缓存名独立配置 TTL/容量（user/menu/contest 等）
+        4. 预留 Redis 扩展接口，保证架构可扩展
     validations:
       required: true
 
@@ -34,16 +40,39 @@ body:
     attributes:
       label: 💡 业务价值
       description: 该需求能带来的收益（性能/体验/成本等）
-      placeholder: 示例：列表加载速度从2s降至0.2s，提升用户留存率
+      placeholder: |
+        示例：统一缓存配置管理，降低维护成本；多缓存独立配置提升缓存命中率，减少数据库压力；预留 Redis 扩展适配未来分布式部署
     validations:
       required: true
+
+  - type: input
+    id: feature-branch
+    attributes:
+      label: 🌿 关联分支（可选）
+      description: 建议/已创建的开发分支（参考示例：cache）
+      placeholder: cache / feature/xxx
+    validations:
+      required: false
+
+  - type: dropdown
+    id: feature-priority
+    attributes:
+      label: 🚨 优先级（可选）
+      description: 参考示例：high
+      options:
+        - high（高）
+        - medium（中）
+        - low（低）
+    validations:
+      required: false
 
   - type: textarea
     id: feature-suggestion
     attributes:
       label: 📝 实现建议（可选）
       description: 你认为该功能如何实现更合理？
-      placeholder: 示例：基于 Caffeine 实现，配置 10 分钟过期时间，最大容量 5000
+      placeholder: |
+        示例：基于 Spring Boot Cache 原生接口封装，使用 @ConditionalOnProperty 控制 Bean 加载；用 NullValue.INSTANCE 处理 null 值序列化
     validations:
       required: false
 
@@ -51,6 +80,6 @@ body:
     id: additional-info
     attributes:
       label: 📎 补充信息（可选）
-      description: 相关参考链接、截图、优先级等
+      description: 相关参考链接、截图、进度状态等（参考示例：status: testing 🧪 正在验证中）
     validations:
       required: false
