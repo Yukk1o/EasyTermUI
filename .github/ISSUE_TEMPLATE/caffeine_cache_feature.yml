@@ -1,0 +1,107 @@
+name: 🚀 功能跟踪 - Caffeine 缓存系统实现
+description: 跟踪基于 Spring Boot Cache 二次封装的 Caffeine 缓存系统实现、测试与验收
+labels: [ "feature", "cache", "caffeine", "high-priority" ]
+assignees: []
+body:
+  - type: markdown
+    attributes:
+      value: |
+        # Caffeine 缓存系统实现跟踪 Issue
+        用于统一管理该功能的实现进度、测试验证、问题反馈及最终验收
+        > 分支：`cache` | 优先级：`high` | 初始状态：`testing`
+  - type: textarea
+    id: feature-overview
+    attributes:
+      label: 📌 核心特性实现状态
+      description: 核对缓存系统核心特性的完成状态，可直接修改表格内容
+      value: |
+        | 特性 | 状态 | 详细说明 |
+        |------|------|----------|
+        | ✅ 原生 Spring Cache 兼容 | ✅ 已完成 | 业务层使用 `@Cacheable`/`@CacheEvict` 注解，零侵入式集成 |
+        | ✅ 配置驱动管理 | ✅ 已完成 | 通过 `cache.type=CAFFEINE` + `cache.caffeine.caches.*` 集中配置所有缓存 |
+        | ✅ 多缓存独立配置 | ✅ 已完成 | 支持 `user`/`menu`/`contest` 等缓存名自定义 TTL、最大容量 |
+        | ✅ 空值序列化兼容 | ✅ 已完成 | 使用 `NullValue.INSTANCE` 包装 null 值，支持任意 Java 对象缓存 |
+        | ✅ 条件装配 | ✅ 已完成 | 通过 `@ConditionalOnProperty` 精准控制缓存 Bean 的加载时机 |
+        | ✅ 架构可扩展 | ✅ 已完成 | 预留 Redis 扩展接口，仅需新增 `RedisCacheManager` 即可适配分布式缓存 |
+        | 🧪 单元测试 | 🟡 测试中 | 验证范围：配置绑定、缓存读写、类型安全、空值处理 |
+        | 🚀 集成测试 | 🟡 测试中 | 验证范围：Controller 层注解生效、缓存命中率、高并发稳定性 |
+    validations:
+      required: true
+
+  - type: dropdown
+    id: overall-status
+    attributes:
+      label: 🔖 整体进度状态
+      description: 选择当前功能的全局状态
+      options:
+        - 🧪 测试中（单元/集成测试验证）
+        - 🔍 问题排查（测试发现Bug，正在修复）
+        - ✅ 验收通过（所有测试完成，可合并上线）
+        - 🚧 暂停（因依赖/风险暂停推进）
+    validations:
+      required: true
+
+  - type: checkboxes
+    id: unit-test-check
+    attributes:
+      label: 🧪 单元测试验证项（完成后勾选）
+      description: 单元测试需覆盖的核心场景
+      options:
+        - label: 配置绑定验证 - 缓存名/TTL/最大容量配置正确加载
+        - label: 缓存读写验证 - 未命中执行loader、命中返回缓存值
+        - label: 空值处理验证 - null值包装为NullValue，get(Class)返回null
+        - label: 空Key校验验证 - 传入null key抛出IllegalArgumentException
+        - label: 多缓存隔离验证 - 不同缓存名的配置互不影响
+        - label: 类型安全验证 - 缓存值类型转换无异常
+    validations:
+      required: false
+
+  - type: checkboxes
+    id: integration-test-check
+    attributes:
+      label: 🚀 集成测试验证项（完成后勾选）
+      description: 集成测试需覆盖的业务场景
+      options:
+        - label: Controller层@Cacheable注解生效（缓存命中/失效符合预期）
+        - label: 核心缓存命中率达标（如≥90%）
+        - label: 缓存清除/更新操作实时生效（@CacheEvict/@CachePut）
+        - label: 高并发场景无缓存击穿/雪崩风险
+        - label: 与现有业务逻辑无冲突（如用户/菜单数据缓存正常）
+    validations:
+      required: false
+
+  - type: textarea
+    id: found-issues
+    attributes:
+      label: ❌ 测试发现的问题
+      description: 记录测试中发现的Bug/异常，标注关联特性和复现步骤
+      placeholder: |
+        示例：
+        1. 单元测试 - 配置绑定：contest缓存TTL配置未生效（配置文件key拼写错误）
+        2. 集成测试 - 命中率：user缓存命中率仅75%（热点key未被缓存）
+    validations:
+      required: false
+
+  - type: textarea
+    id: fix-progress
+    attributes:
+      label: 🔧 问题修复进度
+      description: 记录已修复/待修复的问题，关联PR编号（如有）
+      placeholder: |
+        示例：
+        ✅ 已修复：contest缓存TTL配置错误（PR #123）
+        ⏳ 待修复：user缓存命中率低（计划优化缓存key设计，预计今日完成）
+    validations:
+      required: false
+
+  - type: textarea
+    id: notes
+    attributes:
+      label: 📝 补充说明
+      description: 上线注意事项、Redis扩展计划、依赖项等额外信息
+      placeholder: |
+        1. 上线前需确认生产环境application.yml中cache.caffeine.caches配置完整
+        2. Redis扩展计划：下个迭代完成分布式缓存适配
+        3. 高并发场景建议：为热点缓存增加熔断保护
+    validations:
+      required: false
