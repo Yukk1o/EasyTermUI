@@ -1,142 +1,56 @@
-name: 📋 通用 Issue 模板（按类型适配）
-description: 提交功能需求、Bug 反馈、优化建议等（字段随类型自动适配）
-labels: ["needs-triage"]
+name: ✨ 功能需求
+description: 提交新功能开发或现有功能优化的需求
+labels: ["feature", "needs-triage"]
 assignees: []
 body:
   - type: markdown
     attributes:
       value: |
-        # 通用 Issue 提交模板
-        选择类型后，表单会自动显示对应字段，清晰描述有助于快速解决问题
-  - type: dropdown
-    id: issue-type
+        # 功能需求提交模板
+        请清晰描述需求背景、核心诉求和业务价值，便于评估和实现
+  - type: textarea
+    id: feature-background
     attributes:
-      label: 📌 Issue 类型
-      description: 选择该 Issue 的类型（字段会随类型自动变化）
-      options:
-        - ✨ 功能需求（新增/优化功能）
-        - 🐞 Bug 反馈（功能异常/报错）
-        - 📝 文档优化（文档缺失/错误）
-        - 🧪 测试需求（补充测试用例/验证）
-        - 🔧 工程优化（配置/性能/架构）
-        - ❓ 疑问咨询（技术问题/使用咨询）
+      label: 📖 需求背景
+      description: 该需求解决什么业务问题/用户痛点？
+      placeholder: 示例：帖子列表加载速度慢，用户反馈等待时间过长
     validations:
       required: true
 
-  # ========== 所有类型都显示的通用字段 ==========
   - type: textarea
-    id: core-description
+    id: feature-core
     attributes:
-      label: 📖 核心描述
-      description: 清晰、简洁地描述问题/需求（必填）
+      label: 🎯 核心诉求
+      description: 具体需要实现的功能点（分点说明）
       placeholder: |
-        示例1（Bug）：调用/user接口返回500，日志显示空指针
-        示例2（需求）：新增帖子缓存功能，提升列表加载速度
+        1. 新增帖子列表本地缓存
+        2. 缓存过期时间可配置
+        3. 支持缓存主动刷新
     validations:
       required: true
 
-  - type: input
-    id: env-info
-    attributes:
-      label: 🖥️ 环境信息（可选）
-      description: JDK/框架/部署环境等（如：JDK17 + Spring Boot 3.2 + 测试环境）
-    validations:
-      required: false
-
-  # ========== 仅 Bug 类型显示 ==========
-  - type: textarea
-    id: bug-reproduce
-    attributes:
-      label: 🔍 Bug 复现步骤（必填）
-      description: 详细描述复现步骤（越详细越易定位）
-      placeholder: |
-        1. 操作：调用 POST /api/user，参数 {"id": null}
-        2. 结果：返回500错误，日志：NullPointerException at UserController.java:56
-    validations:
-      required: true
-    when:
-      issue-type: ["🐞 Bug 反馈（功能异常/报错）"]
-
-  - type: textarea
-    id: bug-expected
-    attributes:
-      label: 🎯 Bug 预期行为
-      description: 你认为正常的行为应该是什么？
-      placeholder: 调用接口应返回400参数错误，而非500服务器错误
-    validations:
-      required: true
-    when:
-      issue-type: ["🐞 Bug 反馈（功能异常/报错）"]
-
-  # ========== 仅 功能需求 类型显示 ==========
   - type: textarea
     id: feature-value
     attributes:
-      label: 🎯 功能业务价值（必填）
-      description: 该需求能解决什么问题/提升什么体验？
-      placeholder: 新增帖子缓存后，列表加载速度从2s降至0.2s，提升用户体验
+      label: 💡 业务价值
+      description: 该需求能带来的收益（性能/体验/成本等）
+      placeholder: 示例：列表加载速度从2s降至0.2s，提升用户留存率
     validations:
       required: true
-    when:
-      issue-type: ["✨ 功能需求（新增/优化功能）"]
 
   - type: textarea
     id: feature-suggestion
     attributes:
-      label: 💡 功能实现建议（可选）
+      label: 📝 实现建议（可选）
       description: 你认为该功能如何实现更合理？
-      placeholder: 基于 Caffeine 实现本地缓存，配置 10 分钟过期时间
-    when:
-      issue-type: ["✨ 功能需求（新增/优化功能）"]
-
-  # ========== 仅 文档优化 类型显示 ==========
-  - type: textarea
-    id: doc-problem
-    attributes:
-      label: 📝 文档问题（必填）
-      description: 文档缺失/错误的具体位置和内容
-      placeholder: |
-        位置：docs/cache.md 第20行
-        问题：Caffeine 配置示例中的 expireAfterWrite 单位写错（应该是分钟而非秒）
+      placeholder: 示例：基于 Caffeine 实现，配置 10 分钟过期时间，最大容量 5000
     validations:
-      required: true
-    when:
-      issue-type: ["📝 文档优化（文档缺失/错误）"]
+      required: false
 
-  # ========== 仅 测试需求 类型显示 ==========
-  - type: textarea
-    id: test-scenario
-    attributes:
-      label: 🧪 测试场景（必填）
-      description: 需要补充的测试场景/验证点
-      placeholder: |
-        测试场景：缓存空值处理、缓存过期自动淘汰、高并发缓存击穿
-    validations:
-      required: true
-    when:
-      issue-type: ["🧪 测试需求（补充测试用例/验证）"]
-
-  # ========== 仅 工程优化 类型显示 ==========
-  - type: textarea
-    id: optimize-target
-    attributes:
-      label: 🔧 优化目标（必填）
-      description: 优化的核心目标（性能/可维护性/资源占用等）
-      placeholder: 优化缓存配置加载逻辑，减少启动时间 50%
-    validations:
-      required: true
-    when:
-      issue-type: ["🔧 工程优化（配置/性能/架构）"]
-
-  # ========== 所有类型都可选的补充信息 ==========
   - type: textarea
     id: additional-info
     attributes:
       label: 📎 补充信息（可选）
-      description: 日志、截图、链接等额外信息
-      placeholder: |
-        日志片段：
-        2026-02-25 10:00:00 ERROR [XXX] - NullPointerExeption at XXX.java:123
-        截图链接：https://xxx.com/screenshot.png
+      description: 相关参考链接、截图、优先级等
     validations:
       required: false
